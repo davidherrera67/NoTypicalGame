@@ -6,6 +6,11 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
 /** Launches the desktop (LWJGL3) application. */
 public class Lwjgl3Launcher {
+
+	/*public static void main(String[] args) {
+		Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
+		new Lwjgl3Application(new Game(),configuration);
+	}*/
 	public static void main(String[] args) {
 		createApplication();
 	}
