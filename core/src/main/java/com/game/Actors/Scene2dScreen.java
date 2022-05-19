@@ -1,14 +1,14 @@
-package com.game;
+package com.game.Actors;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.game.Actors.ActorPlayer;
-import com.game.Actors.ActorSpike;
+import com.game.BaseScreen;
+import com.game.Game;
 
-public class MainGameScreen extends BaseScreen {
+public class Scene2dScreen extends BaseScreen {
     private Stage stage;
     private ActorPlayer actorPlayer;
     private ActorSpike actorSpike;
@@ -16,7 +16,7 @@ public class MainGameScreen extends BaseScreen {
     private Texture spikesTexture;
     private TextureRegion spikesRegion;
 
-    public MainGameScreen(Game game) {
+    public Scene2dScreen(Game game) {
         super(game);
         playerTexture = new Texture("DinoReescalado.png");
         spikesTexture = new Texture("pinchoReescalado.png");

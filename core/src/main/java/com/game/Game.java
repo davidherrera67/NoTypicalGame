@@ -1,18 +1,28 @@
 package com.game;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.game.Actors.ActorSpike;
 
-/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
+/**
+ * {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms.
+ */
 public class Game extends com.badlogic.gdx.Game {
 
+    private AssetManager manager;
 
-	@Override
-	public void create() {
-		setScreen(new Box2DScreen(this));
-	}
+    public AssetManager getManager(){
+        return manager;
+    }
+
+    @Override
+    public void create() {
+        manager = new AssetManager();
+//      Cargar texturas
+        manager.load("Dino.png", Texture.class);
+        manager.load("Spike.png", Texture.class);
+        manager.load("floor.jpg", Texture.class);
+        manager.finishLoading();
+
+        setScreen(new GameScreen(this));
+    }
 }
