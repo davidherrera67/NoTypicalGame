@@ -1,6 +1,5 @@
 package com.game.Actors;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -11,17 +10,17 @@ public class ActorSpike extends Actor {
 
     public ActorSpike(TextureRegion spikes) {
         this.spikes = spikes;
-        setSize(spikes.getRegionWidth(),spikes.getRegionHeight());
+        setSize(spikes.getRegionWidth(), spikes.getRegionHeight());
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(spikes,getX(),getY());
+        batch.draw(spikes, getX(), getY());
 
     }
 
     @Override
     public void act(float delta) {
-        setX(getX()-250*delta);
+        setX(getX() - 250 * delta);
     }
 }

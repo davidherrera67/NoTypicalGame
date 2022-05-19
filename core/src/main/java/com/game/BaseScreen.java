@@ -6,7 +6,7 @@ public abstract class BaseScreen implements Screen {
 
     protected Game game;
 
-    public BaseScreen(Game game){
+    public BaseScreen(Game game) {
         this.game = game;
     }
 
@@ -14,6 +14,7 @@ public abstract class BaseScreen implements Screen {
     public void show() {
 
     }
+
     //delta; segundos desde que se refresco la pantalla
     @Override
     public void render(float delta) {

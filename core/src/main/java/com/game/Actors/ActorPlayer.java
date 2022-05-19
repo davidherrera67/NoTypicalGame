@@ -25,6 +25,6 @@ public class ActorPlayer extends Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(player,getX(),getY());
+        batch.draw(player, getX(), getY());
     }
 }
