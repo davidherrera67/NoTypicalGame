@@ -14,26 +14,37 @@ import com.game.Constants;
 
 public class PlayerEntity extends Actor {
 
-    private Texture texture;
+    private final Texture texture;
 
-    private World world;
+    private final World world;
 
-    private Body body;
+    private final Body body;
 
-    private Fixture fixture;
+    private final Fixture fixture;
 
     private boolean alive = true;
+
     private boolean jumping = false;
+
     private boolean mustJump = false;
 
     public PlayerEntity(World world, Texture texture, Vector2 position) {
         this.world = world;
         this.texture = texture;
 
+        /**
+         * Creamos y posicionamos en el espacio la entidad del actor principal.
+         */
+
         BodyDef def = new BodyDef();
         def.position.set(position);
         def.type = BodyDef.BodyType.DynamicBody;
         body = world.createBody(def);
+
+        /**
+         *
+         * Definimos la forma y el tamaño que va a tener nuestro actor principal.
+         */
 
         PolygonShape box = new PolygonShape();
         box.setAsBox(0.5f, 0.5f);
@@ -44,8 +55,9 @@ public class PlayerEntity extends Actor {
         setSize(Constants.PIXELS_IN_METERS, Constants.PIXELS_IN_METERS);
     }
 
-//    Getters && Setters ***************************************************************************
-
+    /**
+     * Getters && Setters ******************************************************************************
+     */
     public boolean isJumping() {
         return jumping;
     }
@@ -62,14 +74,14 @@ public class PlayerEntity extends Actor {
         this.alive = alive;
     }
 
-    public boolean isMustJump() {
-        return mustJump;
-    }
-
     public void setMustJump(boolean mustJump) {
         this.mustJump = mustJump;
     }
 
+
+    /**
+     * Dibujamos el suelo en nuestra pantalla.
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         setPosition(body.getPosition().x * Constants.PIXELS_IN_METERS,
@@ -77,31 +89,47 @@ public class PlayerEntity extends Actor {
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
+
+    /**
+     * Programamos las acciones que va a realizar nuestro actor principal como el movimiento horizontal o
+     * el salto.
+     */
     @Override
     public void act(float delta) {
-        //Iniciar un salto si hemos tocado la pantalla.
 
-        if (Gdx.input.justTouched()) {
+        if (Gdx.input.justTouched() || Gdx.input.isTouched()) {
+            jump();
+        }
+        // Hacer avanzar al jugador si esta vivo.
+
+        if(mustJump){
+            mustJump = false;
             jump();
         }
 
-        // Hacer avanzar al jugador si esta vivo.
-
-        if(alive){
+        if (alive) {
             float velocityY = body.getLinearVelocity().y;
-            body.setLinearVelocity(8, velocityY);
+            body.setLinearVelocity(Constants.PLAYER_SPEED, velocityY);
+        }
+
+        if (isJumping()) {
+            body.applyForceToCenter(0, -Constants.IMPULSE_JUMP * 2.5f, true);
         }
     }
 
-    private void jump() {
-        if (!jumping && alive) {
+    public void jump() {
+        if (!isJumping() && alive) {
             jumping = true;
 
             Vector2 position = body.getPosition();
-            body.applyLinearImpulse(0, 20, position.x, position.y, true);
+            body.applyLinearImpulse(0, Constants.IMPULSE_JUMP, position.x, position.y, true);
         }
     }
 
+    /**
+     * Siempre debemos destruir las fixtures y los bodies con los que trabajemos para liberar espacio en
+     * al memoria de la tarjeta de video.
+     */
     public void detach() {
         body.destroyFixture(fixture);
         world.destroyBody(body);
