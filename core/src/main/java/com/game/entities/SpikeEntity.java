@@ -25,9 +25,20 @@ public class SpikeEntity extends Actor {
         this.texture = texture;
         this.world = world;
 
+/**
+ *
+ * Creamos y posicionamos en el espacio la entidad del actor principal.
+ * */
+
         BodyDef def = new BodyDef();
         def.position.set(x, y + 0.5f);
         body = world.createBody(def);
+
+/**
+ *
+ * Definimos la forma y el tamaño que va a tener nuestro suelo (En este caso al ser un objeto
+ * triangular necesitamos crear un vector para poder dar forma al objeto).
+ * */
 
         PolygonShape box = new PolygonShape();
         Vector2[] vertices = new Vector2[3];
@@ -42,16 +53,22 @@ public class SpikeEntity extends Actor {
 
         setSize(Constants.PIXELS_IN_METERS, Constants.PIXELS_IN_METERS);
         setPosition(x * Constants.PIXELS_IN_METERS, (y - 0.5f) * Constants.PIXELS_IN_METERS);
-
     }
 
+    /**
+     * Dibujamos el suelo en nuestra pantalla.
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        setPosition(body.getPosition().x  * Constants.PIXELS_IN_METERS,
-                    body.getPosition().y  * Constants.PIXELS_IN_METERS);
+        setPosition(body.getPosition().x * Constants.PIXELS_IN_METERS,
+                body.getPosition().y * Constants.PIXELS_IN_METERS);
         batch.draw(texture, getX(), getY(), getWidth(), getHeight());
     }
 
+    /**
+     * Siempre debemos destruir las fixtures y los bodies con los que trabajemos para liberar espacio en
+     * al memoria de la tarjeta de video.
+     */
     public void detach() {
         body.destroyFixture(fixture);
         world.destroyBody(body);
