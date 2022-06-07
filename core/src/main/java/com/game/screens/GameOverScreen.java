@@ -2,45 +2,63 @@ package com.game.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.game.Game;
 
 public class GameOverScreen extends BaseScreen {
 
-
     private Stage stage;
 
     private Skin skin;
 
-    private Image gameOver;
+    private Image gameOverTittle;
 
-    private TextButton retry, menu;
+    private TextButton retryButton, backToMenuButton;
+
+    private Texture backGroundImage;
+
+    private SpriteBatch batch;
+
+    private OrthographicCamera camera;
+
+    private ExtendViewport viewport;
+
 
     public GameOverScreen(final Game game) {
         super(game);
 
-        stage = new Stage(new FitViewport(Gdx.graphics.getWidth(), Gdx.graphics.getWidth()));
+        stage = new Stage(new FitViewport(Gdx.app.getGraphics().getWidth(), Gdx.app.getGraphics().getHeight()));
+
         skin = new Skin(Gdx.files.internal("skin/uiskin.json"));
-        gameOver = new Image(game.getManager().get("gameover.png", Texture.class));
 
-        retry = new TextButton("Retry", skin);
-        menu = new TextButton("Menu", skin);
+        batch = new SpriteBatch();
 
-        retry.addCaptureListener(new ChangeListener() {
+        gameOverTittle = new Image(game.getManager().get("images/gameOverTittle.png", Texture.class));
+
+        backGroundImage = game.getManager().get("images/bg4K.jpg", Texture.class);
+
+        retryButton = new TextButton("Retry", skin);
+
+        backToMenuButton = new TextButton("Menu", skin);
+
+        retryButton.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(game.gameScreen);
+                game.setScreen(game.selectionMenuScreen);
             }
         });
 
-        menu.addCaptureListener(new ChangeListener() {
+        backToMenuButton.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 // And here I go to the menu screen.
@@ -48,21 +66,47 @@ public class GameOverScreen extends BaseScreen {
             }
         });
 
-        gameOver.setPosition(1000 - gameOver.getWidth() / 2, 1000 - gameOver.getHeight());
-        retry.setSize(200, 100);
-        retry.setPosition(1100, 700);
+        gameOverTittle.setPosition((Gdx.graphics.getWidth() / 2.5f) - 200f, Gdx.graphics.getHeight() / 1.8f);
 
-        menu.setSize(200, 100);
-        menu.setPosition(1100, 500);
+        retryButton.setSize(700, 80);
+        retryButton.setPosition((Gdx.graphics.getWidth() / 2.5f) - 100f, Gdx.graphics.getHeight() / 2f);
+        retryButton.getLabel().setFontScale(3f, 3f);
 
-        stage.addActor(retry);
-        stage.addActor(menu);
-        stage.addActor(gameOver);
+        backToMenuButton.setSize(700, 80);
+        backToMenuButton.setPosition((Gdx.graphics.getWidth() / 2.5f) - 100f, Gdx.graphics.getHeight() / 2.8f);
+        backToMenuButton.getLabel().setFontScale(3f, 3f);
+
+        stage.addActor(retryButton);
+        stage.addActor(backToMenuButton);
+        stage.addActor(gameOverTittle);
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage);
+        camera = new OrthographicCamera();
+        viewport = new ExtendViewport(2550, 1440, camera);
+        viewport.apply(true);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height);
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(0.15f, 0.15f, 0.2f, 1f);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        camera.update();
+
+        batch.begin();
+        batch.draw(backGroundImage, 0, 0, Gdx.app.getGraphics().getWidth(), Gdx.app.getGraphics().getHeight());
+        batch.end();
+
+        stage.act();
+        stage.draw();
     }
 
     @Override
@@ -75,12 +119,4 @@ public class GameOverScreen extends BaseScreen {
         stage.dispose();
     }
 
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(0.15f, 0.15f, 0.2f, 1f);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        stage.act();
-        stage.draw();
-    }
 }

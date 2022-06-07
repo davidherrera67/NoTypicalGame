@@ -11,6 +11,9 @@ public abstract class BaseScreen implements Screen {
         this.game = game;
     }
 
+
+
+
     @Override
     public void show() {}
 
