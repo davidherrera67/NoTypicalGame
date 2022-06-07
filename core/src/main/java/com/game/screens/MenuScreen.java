@@ -23,7 +23,7 @@ public class MenuScreen extends BaseScreen {
 
     private Image logo;
 
-    private TextButton play, configuration, exit;
+    private TextButton play, options, exit;
 
     private Texture bg;
 
@@ -42,43 +42,42 @@ public class MenuScreen extends BaseScreen {
 
         batch = new SpriteBatch();
 
-        play = new TextButton("Play", skin);
-        play.getLabel().setFontScale(3f, 3f);
-        configuration = new TextButton("Configuration", skin);
-        configuration.getLabel().setFontScale(3f, 3f);
-        exit = new TextButton("Exit", skin);
-        exit.getLabel().setFontScale(3f, 3f);
-
         logo = new Image(game.getManager().get("images/tittle.png", Texture.class));
         bg = game.getManager().get("images/bg4K.jpg", Texture.class);
 
+        play = new TextButton("Play", skin);
+        play.getLabel().setFontScale(3f, 3f);
         play.setSize(700, 80);
-        configuration.setSize(700, 80);
-        exit.setSize(700, 80);
-
-        logo.setPosition(Gdx.graphics.getWidth() / 2.5f, Gdx.graphics.getHeight() /1.5f);
         play.setPosition((Gdx.graphics.getWidth() / 2.5f) - 100f, Gdx.graphics.getHeight() / 2f);
-        configuration.setPosition((Gdx.graphics.getWidth() / 2.5f) - 100f, Gdx.graphics.getHeight() / 2.5f);
+
+        options = new TextButton("Options", skin);
+        options.getLabel().setFontScale(3f, 3f);
+        options.setSize(700, 80);
+        options.setPosition((Gdx.graphics.getWidth() / 2.5f) - 100f, Gdx.graphics.getHeight() / 2.5f);
+
+        exit = new TextButton("Exit", skin);
+        exit.getLabel().setFontScale(3f, 3f);
+        exit.setSize(700, 80);
         exit.setPosition((Gdx.graphics.getWidth() / 2.5f) - 100f, Gdx.graphics.getHeight() / 3.3f);
+
+        logo.setPosition((Gdx.graphics.getWidth() / 2.5f) - 200f, Gdx.graphics.getHeight() / 1.6f);
 
         stage.addActor(play);
         stage.addActor(logo);
-        stage.addActor(configuration);
+        stage.addActor(options);
         stage.addActor(exit);
-
-
 
         play.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-                game.setScreen(game.gameScreen);
+                game.setScreen(game.selectionMenuScreen);
             }
         });
 
-        configuration.addCaptureListener(new ChangeListener() {
+        options.addCaptureListener(new ChangeListener() {
             @Override
             public void changed(ChangeListener.ChangeEvent event, Actor actor) {
-                //game.setScreen(game.creditsScreen);
+                game.setScreen(game.optionsScreen);
             }
         });
 
@@ -100,19 +99,6 @@ public class MenuScreen extends BaseScreen {
     }
 
     @Override
-    public void hide() {
-        Gdx.input.setInputProcessor(null);
-    }
-
-    @Override
-    public void dispose() {
-        // Dispose assets.
-        stage.dispose();
-        batch.dispose();
-        skin.dispose();
-    }
-
-    @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1f, 0f, 0f, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -125,11 +111,24 @@ public class MenuScreen extends BaseScreen {
 
         stage.act();
         stage.draw();
-
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width, height);
     }
+
+    @Override
+    public void hide() {
+        Gdx.input.setInputProcessor(null);
+    }
+
+    @Override
+    public void dispose() {
+        stage.dispose();
+        batch.dispose();
+        skin.dispose();
+    }
+
+
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "39407910366",
+    "project_id": "notypicalgame",
+    "storage_bucket": "notypicalgame.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:39407910366:android:39d8fc6c64474d44adf14f",
+        "android_client_info": {
+          "package_name": "com.game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "39407910366-ramt09a4sjp3i23j4vig7qqm87m8s5ol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACXBPWfbMhuhd-RlCdn6dNuJeisMbsP4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "39407910366-ramt09a4sjp3i23j4vig7qqm87m8s5ol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

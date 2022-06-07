@@ -10,6 +10,7 @@ buildscript {
 	}
 	dependencies {
 		classpath "com.android.tools.build:gradle:$androidPluginVersion"
+		classpath 'com.google.gms:google-services:4.3.10'
 
 		// This follows advice from https://blog.gradle.org/log4j-vulnerability
 		constraints {
@@ -27,6 +28,9 @@ buildscript {
 allprojects {
 	apply plugin: 'eclipse'
 	apply plugin: 'idea'
+	repositories {
+		google()
+	}
 }
 
 configure(subprojects - project(':android')) {
